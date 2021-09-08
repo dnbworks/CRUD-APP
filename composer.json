@@ -1,0 +1,16 @@
+{
+    "name": "ynsaa/mini_mvc",
+    "description": "mini mvc",
+    "authors": [
+        {
+            "name": "dnbworks",
+            "email": "dooyongnsaakobalderama@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "app\\": "./"
+        }
+    }
+}
