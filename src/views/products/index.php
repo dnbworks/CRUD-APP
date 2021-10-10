@@ -46,4 +46,6 @@
         <?php } ?>
         </tbody>
     </table>
+
+    <?= $links ?>
 </div>

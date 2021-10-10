@@ -1,11 +1,12 @@
 <?php
 
-use app\controllers\ProductController;
-use app\Router;
-
 require_once __DIR__.'/../vendor/autoload.php';
 
-$database = new \app\Database();
+use app\controllers\ProductController;
+use app\core\Router;
+
+
+$database = new \app\core\db\Database();
 $router = new Router($database);
 
 

@@ -1,6 +1,7 @@
 <?php
 
-namespace app;
+namespace app\core;
+use app\core\db\Database;
 
 
 class Router {
@@ -48,9 +49,9 @@ class Router {
         }
 
         ob_start();
-        include __DIR__."/views/$view.php";
+        include __DIR__."/../views/$view.php";
         $content = ob_get_clean();
-        include __DIR__."/views/layout.php";
+        include __DIR__."/../views/layout.php";
 
     }
 

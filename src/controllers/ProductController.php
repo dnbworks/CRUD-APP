@@ -2,7 +2,8 @@
 
 namespace app\controllers;
 
-use app\Router;
+use app\helpers\PaginationLinks;
+use app\core\Router;
 use app\models\Product;
 
 
@@ -10,11 +11,37 @@ use app\models\Product;
 class ProductController {
 
     public static function index(Router $router){
+        // pagination
+        $page = ISSET($_GET['page']) ? $_GET['page'] : null;
+
+        $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+        $result_per_page = 5;
+        $skip = (($current_page - 1) * $result_per_page);
+
         $keyword = $_GET['search'] ?? '';
         $products = $router->database->getProducts($keyword);
+
+        $rowCount = count($products);
+        $num_pages = ceil($rowCount / $result_per_page);
+
+        $statement = " LIMIT $skip,  $result_per_page";
+        $products = $router->database->getProducts($keyword, $statement);
+
+    
+
+        if($num_pages > 1){
+            // generate pagination links
+            $pagination = new PaginationLinks($current_page, $num_pages);
+            $links = $pagination->generate_page_links();
+        } else {
+            $links = '';
+        }
+
+      
         $router->renderView('products/index', [
             'products' => $products,
-            'keyword' => $keyword
+            'keyword' => $keyword,
+            'links' => $links
         ]);
     }
 

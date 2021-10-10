@@ -3,7 +3,7 @@
 namespace app\models;
 
 use app\helpers\UtilHelper;
-use app\Database;
+use app\core\db\Database;
 
 class Product {
     public ?int $id = null;
@@ -26,9 +26,11 @@ class Product {
 
     public function save()
     {
+        // echo dirname(__DIR__);
+        // exit;
         $errors = [];
-        if (!is_dir(__DIR__ . '/../public/images')) {
-            mkdir(__DIR__ . '/../public/images');
+        if (!is_dir(dirname(__DIR__). '/../public/images')) {
+            mkdir(dirname(__DIR__) . '/../public/images');
         }
 
         if (!$this->title) {
@@ -42,11 +44,11 @@ class Product {
         if (empty($errors)) {
             if ($this->imageFile && $this->imageFile['tmp_name']) {
                 if ($this->imagePath) {
-                    unlink(__DIR__ . '/../public/' . $this->imagePath);
+                    unlink(dirname(__DIR__) . '/../public/' . $this->imagePath);
                 }
                 $this->imagePath = 'images/' . UtilHelper::randomString(8) . '/' . $this->imageFile['name'];
-                mkdir(dirname(__DIR__ . '/../public/' . $this->imagePath));
-                move_uploaded_file($this->imageFile['tmp_name'], __DIR__ . '/../public/' . $this->imagePath);
+                mkdir(dirname(dirname(__DIR__) . '/../public/' . $this->imagePath));
+                move_uploaded_file($this->imageFile['tmp_name'], dirname(__DIR__) . '/../public/' . $this->imagePath);
             }
 
             $db = Database::$db;

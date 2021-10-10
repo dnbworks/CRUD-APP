@@ -1,6 +1,6 @@
 <?php
 
-namespace app;
+namespace app\core\db;
 use PDO;
 
 use app\models\Product;
@@ -16,13 +16,13 @@ class Database {
         self::$db = $this;
     }
 
-    public function getProducts($keyword = '')
+    public function getProducts($keyword = '', $stmt = '')
     {
         if ($keyword) {
-            $statement = $this->pdo->prepare('SELECT * FROM products WHERE title like :keyword ORDER BY create_date DESC');
+            $statement = $this->pdo->prepare("SELECT * FROM products WHERE title like :keyword ORDER BY create_date DESC {$stmt}");
             $statement->bindValue(":keyword", "%$keyword%");
         } else {
-            $statement = $this->pdo->prepare('SELECT * FROM products ORDER BY create_date DESC');
+            $statement = $this->pdo->prepare("SELECT * FROM products ORDER BY create_date DESC {$stmt}");
         }
         $statement->execute();
 
